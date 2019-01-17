@@ -3,11 +3,11 @@
 	margin: 0px;
 	padding: 0px;
 	border: 0px;
-	font-family: 8bitOperator;
+	font-family: "8bitOperator";
 }
 
 @font-face
 {
-	font-family: 8bitOperator;
-	src: url(8bitOperatorPlusSC-Regular.ttf);
+	font-family: "8bitOperator";
+	src: url("8bitOperatorPlusSC-Regular.ttf") format("truetype");
 }
