@@ -10,7 +10,6 @@
 	padding: 0px;
 	border: 0px;
 	font-family: "8bitOperator";
-	background-color: #000000;
 	color: #ffffff;
 	overflow: hidden;
 }
@@ -19,7 +18,6 @@
 {
 	position: fixed;
 	z-index: -1;
-	background-color: #800000;
 	width: 100vw;
 	height: 100vh;
 }
@@ -28,7 +26,7 @@
 {
 	width: 100%;
 	height: 100%;
-	background-color: #00ff00;
+	background-color: #101040;
 }
 
 #foreground
@@ -46,7 +44,7 @@
 
 .gameProfile
 {
-	background-color: #ff0000;
+	background-color: #800000;
 	width: 100px;
 	height: 100px;
 	margin: 50px;
