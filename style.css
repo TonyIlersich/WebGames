@@ -1,13 +1,42 @@
+@font-face
+{
+	font-family: "8bitOperator";
+	src: url("8bitOperatorPlusSC-Regular.woff");
+}
+
 *
 {
 	margin: 0px;
 	padding: 0px;
 	border: 0px;
 	font-family: "8bitOperator";
+	background-color: "#000000";
+	color: "#ffffff";
 }
 
-@font-face
+#background
 {
-	font-family: "8bitOperator";
-	src: url("8bitOperatorPlusSC-Regular.woff");
+	display: fixed;
+	background-color: "#800000";
+	width: 100vw;
+	height: 100vh;
+}
+
+#foreground
+{
+	text-align: center;
+}
+
+.flexContainer
+{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.gameProfile
+{
+	background-color: "#ff0000";
+	width: 100px;
+	height: 100px;
 }
