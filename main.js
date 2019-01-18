@@ -20,7 +20,7 @@ bg = {
 	{
 		this.context.strokeStyle = "#00ff00";
 		this.context.beginPath();
-		this.context.arc(this.width / 2, this.height / 2, 0, Date.now() * TAU);
+		this.context.arc(this.width / 2, this.height / 2, 0, Date.now() * TAU, false);
 		this.context.stroke();
 	},
 	
