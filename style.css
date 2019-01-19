@@ -11,7 +11,7 @@
 	border: 0px;
 	font-family: "8bitOperator";
 	color: #ffffff;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 
 #background
@@ -32,20 +32,52 @@
 #foreground
 {
 	text-align: center;
+	overflow: hidden;
+	height: 100vh;
 }
 
-.flexContainer
+#header
+{
+	position: fixed;
+	height: 10%;
+	width: 100%;
+	background-image: linear-gradient(to bottom, black, transparent);
+}
+
+#spacer
+{
+	height: 10%; /*must match #header*/
+	width: 100%;
+}
+
+#gameList
 {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: space-evenly;
+	justify-content: flex-start;
+	align-content: flex-start;
+	margin-left: 10vw;
+	overflow: auto;
+	width: 92%;
+	height: 100%;
 }
 
 .gameProfile
 {
 	background-color: #800000;
-	width: 100px;
-	height: 100px;
-	margin: 50px;
+	width: 15vw;
+	height: 15vw;
+	margin: 2.5vw;
+	transition: all .4s;
+	border-radius: 10%;
+}
+
+.gameProfile:hover
+{
+	width: 20vw;
+	height: 20vw;
+	margin: 0vw;
+	background-color: white;
+	border-radius: 25%;
 }

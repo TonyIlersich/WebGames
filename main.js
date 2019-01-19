@@ -7,6 +7,11 @@ bg = {
 	canvas: null,
 	context: null,
 	
+	clr: function(r, g, b, a)
+	{
+		return "rgba(" + r * 255 + "," + g * 255 + "," + b * 255 + "," + a + ")";
+	},
+	
 	init: function()
 	{
 		this.width = $("#bgCanvas").attr("width");
@@ -18,9 +23,12 @@ bg = {
 	
 	redraw: function()
 	{
-		this.context.strokeStyle = "#00ff00";
+		console.log("redrawing");
+		this.context.clearRect(0, 0, this.width, this.height);
+		this.context.strokeStyle = this.clr(1, 0, 0, .2);
+		this.context.lineWidth = .5 * this.height;
 		this.context.beginPath();
-		this.context.arc(this.width / 2, this.height / 2, 0, Date.now() * TAU, false);
+		//...
 		this.context.stroke();
 	},
 	
