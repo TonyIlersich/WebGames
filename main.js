@@ -286,8 +286,6 @@ bg = {
 			bg.context.closePath();
 			bg.context.fill();
 			bg.context.stroke();
-			
-			console.log(x0 + ", " + y);
 		}
 		
 		this.update = function()
@@ -328,9 +326,7 @@ bg = {
 	
 	redraw: function()
 	{
-		console.log("redrawing");
-		
-		this.fade(this.clr(0, .05, .1, .1));
+		this.fade();
 		
 		this.circuit.step();
 		this.meter.update();
@@ -338,10 +334,11 @@ bg = {
 		this.tick++;
 	},
 	
-	fade: function(toColor)
+	fade: function()
 	{
-		this.context.fillStyle = toColor;
-		this.context.fillRect(0, 0, this.width, this.height);
+		this.context.fillStyle = this.clr(0, 0, 0, 0.15);
+		this.context.fillRect(0, 0, .1 * this.width, this.height);
+		this.context.clearRect(.1 * this.width, 0, .9 * this.width, this.height);
 	},
 }
 
