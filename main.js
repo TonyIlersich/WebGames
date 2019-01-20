@@ -152,10 +152,13 @@ bg = {
 						}
 						
 						bg.context.strokeStyle = bg.clr(0, .5, 1, 1);
+						bg.context.shadowBlur = .4 * BRANCH_WIDTH;
+						bg.context.shadowColor = bg.clr(0, .5, 1, 1);
 						bg.context.beginPath();
 						bg.context.moveTo(fromX, fromY);
 						bg.context.lineTo(toX, toY);
 						bg.context.stroke();
+						bg.context.shadowBlur = 0;
 					}
 				}
 			
