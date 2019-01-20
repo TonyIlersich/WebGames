@@ -4,6 +4,7 @@ bg = {
 	FPS: 24,
 	width: undefined,
 	height: undefined,
+	aspect: undefined,
 	canvas: null,
 	context: null,
 	tick: undefined,
@@ -14,8 +15,8 @@ bg = {
 		const WIDTH = x1 - x0;
 		const HEIGHT = y1 - y0;
 		const MARGIN = .1 * WIDTH;
-		const N_BRANCHES = 7;
-		const BRANCH_WIDTH = (WIDTH - 2 * MARGIN) / (N_BRANCHES - 1);
+		var N_BRANCHES = undefined;
+		var BRANCH_WIDTH = undefined;
 		const N_SEGMENTS = 30;
 		const SEGMENT_HEIGHT = (HEIGHT - 2 * MARGIN) / N_SEGMENTS;
 		const OPTIONS_FROM_START_NODE = [
@@ -34,10 +35,18 @@ bg = {
 			"start node"
 		];
 		
+		this.refresh = function()
+		{
+			N_BRANCHES = Math.floor(bg.aspect * 4);
+			BRANCH_WIDTH = (WIDTH - 2 * MARGIN) / (N_BRANCHES - 1);
+		}
+		
+		this.refresh();
+		
 		this.branchX = function(i)
 		{
 			return MARGIN + i * BRANCH_WIDTH;
-		};
+		}
 		
 		this.branchState = [];
 		for (var i = 0; i < N_BRANCHES; i++)
@@ -50,9 +59,7 @@ bg = {
 		this.step = function()
 		{
 			bg.context.lineCap = "round";
-			bg.context.lineWidth = .2 * BRANCH_WIDTH;
-			
-			bg.context.rect(MARGIN, MARGIN, WIDTH - MARGIN, HEIGHT - MARGIN);
+			bg.context.lineWidth = Math.min(.5 * MARGIN, .2 * BRANCH_WIDTH);
 			
 			if (this.segment >= 0)
 			{
@@ -104,7 +111,9 @@ bg = {
 						
 						bg.context.fillStyle = bg.clr(0, .5, 1, 1);
 						bg.context.beginPath();
-						bg.context.arc(x, y, .4 * BRANCH_WIDTH, 0, TAU);
+						var radius = Math.min(MARGIN, .4 * BRANCH_WIDTH);
+						console.log(radius * bg.aspect);
+						bg.context.ellipse(x, y, radius, radius * bg.aspect, 0, 0, TAU);
 						bg.context.fill();
 
 						if (action == "start node")
@@ -152,7 +161,7 @@ bg = {
 						}
 						
 						bg.context.strokeStyle = bg.clr(0, .5, 1, 1);
-						bg.context.shadowBlur = .4 * BRANCH_WIDTH;
+						bg.context.shadowBlur = .5 * BRANCH_WIDTH;
 						bg.context.shadowColor = bg.clr(0, .5, 1, 1);
 						bg.context.beginPath();
 						bg.context.moveTo(fromX, fromY);
@@ -184,10 +193,19 @@ bg = {
 		return "rgba(" + r * 255 + "," + g * 255 + "," + b * 255 + "," + a + ")";
 	},
 	
+	getAspect: function()
+	{
+		this.aspect = $("#bgCanvas").width() / $("#bgCanvas").height();
+		console.log(this.aspect);
+	},
+	
 	init: function()
 	{
 		this.width = $("#bgCanvas").attr("width");
 		this.height = $("#bgCanvas").attr("height");
+		
+		this.getAspect();
+		
 		this.canvas = document.getElementById("bgCanvas");
 		this.context = this.canvas.getContext("2d");
 		
@@ -219,6 +237,8 @@ bg = {
 $(document).ready(function ()
 {
 	console.log("page loaded");
+	
+	$(window).resize(() => { bg.getAspect(); bg.fractal.refresh(); });
 	
 	bg.init();
 });

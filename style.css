@@ -65,9 +65,10 @@
 
 .gameProfile
 {
-	background-color: #800000;
-	width: 15vw;
-	height: 15vw;
+	background-color: #000000;
+	width: 14vw;
+	height: 14vw;
+	border: .5vw solid #0090d0;
 	margin: 2.5vw;
 	transition: all .4s;
 	border-radius: 10%;
@@ -75,9 +76,10 @@
 
 .gameProfile:hover
 {
-	width: 20vw;
-	height: 20vw;
+	width: 19vw;
+	height: 19vw;
+	border: .5vw solid #00c0ff;
 	margin: 0vw;
-	background-color: white;
+	background-color: #000000;
 	border-radius: 25%;
 }
