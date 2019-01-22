@@ -206,6 +206,8 @@ bg = {
 		
 		const N_NOTCHES = 61;
 		
+		this.y = undefined;
+		
 		this.notchY = function(i)
 		{
 			var progress = i / (N_NOTCHES - 1);
@@ -215,9 +217,12 @@ bg = {
 		
 		this.redraw = function()
 		{
-			bg.context.lineCap = "round";
-			bg.context.lineWidth = .25 * MARGIN;
-			bg.context.strokeStyle = bg.clr(0, .5, 1, 1);
+			bg.context.lineCap = "square";
+			bg.context.lineWidth = .2 * MARGIN;
+			bg.context.strokeStyle = bg.clr(.5, .65, 1, 1);
+			bg.context.shadowColor = bg.clr(0, .5, 1, 1);
+			bg.context.shadowBlur = 10 * bg.context.lineWidth;
+			bg.context.beginPath();
 			
 			for (var i = 0; i < N_NOTCHES; i++)
 			{
@@ -232,29 +237,23 @@ bg = {
 				var xl = (i % 10 == 0) ? x0 : x1;
 				var xr = (i % 10 == 0) ? x4 : x3;
 				
-				bg.context.beginPath()
 				bg.context.moveTo(x2, this.notchY(0));
 				bg.context.lineTo(x2, this.notchY(N_NOTCHES - 1));
-				bg.context.stroke();
 				
 				var y0 = this.notchY(i);
 				var y1 = this.notchY(i * PHI);
 				
-				bg.context.shadowColor = bg.clr(0, .5, 1, .5);
-				bg.context.shadowBlur = 5 * bg.context.lineWidth;
-				
-				bg.context.beginPath();
 				bg.context.moveTo(x2, y0);
 				bg.context.lineTo(xl, y0);
-				bg.context.stroke();
 				
-				bg.context.beginPath();
 				bg.context.moveTo(x2, y1);
 				bg.context.lineTo(xr, y1);
-				bg.context.stroke();
-				
-				bg.context.shadowBlur = 0;
 			}
+			
+			bg.context.stroke();
+			bg.context.stroke();
+			
+			bg.context.shadowBlur = 0;
 		}
 		
 		this.drawPointer = function()
@@ -264,23 +263,33 @@ bg = {
 			var usefulHeight = HEIGHT - 2 * MARGIN;
 			var yScroll = elem.scrollTop();
 			var yMax = elem[0].scrollHeight - elem.height();
-			var y = usefulHeight * yScroll / yMax;
+			var yTarget = usefulHeight * yScroll / yMax;
+			
+			var weight = .8;
+			if (this.y)
+			{
+				this.y = weight * this.y + (1 - weight) * yTarget;
+			}
+			else
+			{
+				this.y = yTarget;
+			}
 			
 			var pointerHeight = .02 * usefulHeight;
-			var y0 = y - pointerHeight / 2;
-			var y1 = y + pointerHeight / 2;
+			var y0 = this.y - pointerHeight / 2;
+			var y1 = this.y + pointerHeight / 2;
 			
 			var usefulWidth = WIDTH - 2 * MARGIN;
-			var x0 = bg.width - usefulWidth - MARGIN;
-			var x1 = bg.width - usefulWidth * .65 - MARGIN;
+			var x0 = bg.width - usefulWidth * .6 - MARGIN;
+			var x1 = bg.width - usefulWidth * .3 - MARGIN;
 			
-			bg.context.lineCap = "square";
+			bg.context.lineCap = "round";
 			bg.context.lineWidth = .25 * MARGIN;
-			bg.context.fillStyle = bg.clr(0, .5, 1, .2);
+			bg.context.fillStyle = bg.clr(.5, .75, 1, 1);
 			
 			bg.context.beginPath();
 			bg.context.moveTo(x0, y0);
-			bg.context.lineTo(x1, y);
+			bg.context.lineTo(x1, this.y);
 			bg.context.lineTo(x0, y1);
 			bg.context.lineTo(x0, y0);
 			bg.context.closePath();
@@ -336,9 +345,17 @@ bg = {
 	
 	fade: function()
 	{
-		this.context.fillStyle = this.clr(0, 0, 0, 0.15);
-		this.context.fillRect(0, 0, .1 * this.width, this.height);
-		this.context.clearRect(.1 * this.width, 0, .9 * this.width, this.height);
+		var delta = .01 * 255;
+		var img = this.context.getImageData(0, 0, .1 * this.width, this.height);
+		for (var i = 3; i < img.data.length; i += 4)
+		{
+			img.data[i] = Math.max(0, img.data[i] * .9 - delta);
+		}
+		this.context.clearRect(0, 0, this.width, this.height);
+		this.context.putImageData(img, 0, 0);
+		
+		//this.context.fillRect(0, 0, .1 * this.width, this.height);
+		//this.context.clearRect(.1 * this.width, 0, .9 * this.width, this.height);
 	},
 }
 
